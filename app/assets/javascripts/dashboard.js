@@ -5,12 +5,6 @@ $(document).on('ready page:load', function() {
   forecastApp.submitFlightForm = function() {
     var origin = document.getElementById('origin').value;
     var destination = document.getElementById('destination').value;
-    var date = document.getElementById('date').value;
-    var time = document.getElementById('time').value;
-    var speed = document.getElementById('speed').value;
-    var timeInterval = document.getElementById('time_interval').value;
-
-    console.log(origin, destination, date, time, speed, timeInterval);
 
     // Empty out array.
     forecastApp.flightPathCoordinates = [];
@@ -25,6 +19,20 @@ $(document).on('ready page:load', function() {
       forecastApp.flightPathCoordinates.push(new google.maps.LatLng(data.location[0], data.location[1]));
 
       if(forecastApp.flightPathCoordinates.length === 2) {
+        var origin = forecastApp.flightPathCoordinates[0];
+        var destination = forecastApp.flightPathCoordinates[1];
+
+        var date = document.getElementById('date').value;
+        var time = document.getElementById('time').value;
+        var speed = document.getElementById('speed').value;
+        var timeInterval = document.getElementById('time_interval').value;
+        var formattedDateTime = new Date(date + ' ' + time).toISOString();
+
+        $.getJSON('forecast/' + origin['k'] + ',' + origin['D'] + '/' +
+            destination['k'] + ',' + destination['D'] + '/' +
+            formattedDateTime + '/' + speed + '/' + timeInterval , function(data) {
+          console.log(data);
+        });
         initializeMap();
       }
     });
