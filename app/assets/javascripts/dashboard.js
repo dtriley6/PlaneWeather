@@ -10,7 +10,7 @@ $(document).on('ready page:load', function() {
     forecastApp.flightPathCoordinates = [];
 
     forecastApp.getResolvedLocation(origin)
-    forecastApp.getResolvedLocation(destination)
+  forecastApp.getResolvedLocation(destination)
   };
 
   // Resolve
@@ -26,14 +26,14 @@ $(document).on('ready page:load', function() {
         var time = document.getElementById('time').value;
         var speed = document.getElementById('speed').value;
         var timeInterval = document.getElementById('time_interval').value;
-        var formattedDateTime = new Date(date + ' ' + time).toISOString();
+        var formattedDateTime = new Date(date + ' ' + time).getTime() / 1000;
 
         $.getJSON('forecast/' + origin['k'] + ',' + origin['D'] + '/' +
-            destination['k'] + ',' + destination['D'] + '/' +
-            formattedDateTime + '/' + speed + '/' + timeInterval , function(data) {
-          console.log(data);
-        });
-        initializeMap();
+          destination['k'] + ',' + destination['D'] + '/' +
+          formattedDateTime + '/' + speed + '/' + timeInterval , function(forecasts) {
+            console.log(forecasts);
+            initializeMap(forecasts);
+          });
       }
     });
   };
@@ -44,7 +44,7 @@ $(document).on('ready page:load', function() {
   };
 
   // Map
-  var initializeMap = function() {
+  var initializeMap = function(opt_markers) {
     var mapOptions = {
       center: { lat: 35.877639, lng: -78.787472}, zoom: 4
     };
@@ -60,6 +60,28 @@ $(document).on('ready page:load', function() {
       });
 
       flightPath.setMap(map);
+
+      if(opt_markers) {
+        //create empty LatLngBounds object
+        var bounds = new google.maps.LatLngBounds();
+        var infowindow = new google.maps.InfoWindow();
+
+        var forecasts = opt_markers.forecasts;
+
+        for (i = 0; i < forecasts.length; i++) {  
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(forecasts[i]["latitude"], forecasts[i]["longitude"]),
+            map: map
+          });
+
+          //extend the bounds to include each marker's position
+          bounds.extend(marker.position);
+
+        }
+
+        //now fit the map to the newly inclusive bounds
+        map.fitBounds(bounds);
+      }
     }
 
   };
