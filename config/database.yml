@@ -20,6 +20,13 @@ test:
   <<: *default
   database: db/test.sqlite3
 
+#production:
+  #<<: *default
+  #database: db/production.sqlite3
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: mysql2
+  host: <%= ENV['APP_DB_HOST'] %>
+  port: <%= ENV['APP_DB_PORT'] || "3306" %>
+  database: <%= ENV['APP_DB_DATABASE'] %>
+  username: <%= ENV['APP_DB_USERNAME'] %>
+  password: <%= ENV['APP_DB_PASSWORD'] %>
