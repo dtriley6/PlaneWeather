@@ -41,7 +41,6 @@ RUN chown -R app:app /home/app/webapp
 RUN sudo -u app RAILS_ENV=production rake assets:precompile
 
 RUN mkdir -p /etc/my_init.d
-ADD resque-workers.sh /etc/my_init.d/resque-workers.sh
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
