@@ -5,37 +5,42 @@
       <div id="map-canvas"></div>
     </div>
     <div class="col-md-3">
-      <form name="flight_details">
-        <fieldset>
-          <div class="form-group">
-            <label for="origin" class="control-label">Flight Origin</label>
-            <input id="origin" class="form-control" type="text" placeholder="LAX or 33.943,-118.408">
-          </div>
-          <div class="form-group">
-            <label for="destination" class="control-label">Flight Destination</label>
-            <input id="destination" class="form-control" type="text" placeholder="LHR or 51.478,-0.461">
-          </div>
-          <div class="form-group">
-            <label for="date" class="control-label">Flight Departure Date</label>
-            <input id="date" class="form-control" type="date" placeholder="yyyy-mm-dd">
-          </div>
-          <div class="form-group">
-            <label for="time" class="control-label">Flight Departure Time</label>
-            <input id="time" class="form-control" type="time" placeholder="hh:mm">
-          </div>
-          <div class="form-group">
-            <label for="speed" class="control-label">Avg. Flight Speed (mph)</label>
-            <input id="speed" class="form-control" type="number" step="any" placeholder="500">
-          </div>
-          <div class="form-group">
-            <label for="time_interval" class="control-label">Frequency of Weather Reports (hrs)</label>
-            <input id="time_interval" class="form-control" type="number" step="any" placeholder="2">
-          </div>
-          <div class="form-group">
-            <button class="btn btn-success submit-flight" type="button">Forecast</button>
-          </div>
-        </fieldset>
-      </form>
+      <div class="side-panel">
+        <form class="flight-details">
+          <fieldset>
+            <div class="form-group">
+              <label for="origin" class="control-label">Flight Origin</label>
+              <input id="origin" class="form-control" type="text" placeholder="LAX or 33.943,-118.408">
+            </div>
+            <div class="form-group">
+              <label for="destination" class="control-label">Flight Destination</label>
+              <input id="destination" class="form-control" type="text" placeholder="LHR or 51.478,-0.461">
+            </div>
+            <div class="form-group">
+              <label for="date" class="control-label">Flight Departure Date</label>
+              <input id="date" class="form-control" type="date" placeholder="yyyy-mm-dd">
+            </div>
+            <div class="form-group">
+              <label for="time" class="control-label">Flight Departure Time</label>
+              <input id="time" class="form-control" type="time" placeholder="hh:mm">
+            </div>
+            <div class="form-group">
+              <label for="speed" class="control-label">Avg. Flight Speed (mph)</label>
+              <input id="speed" class="form-control" type="number" step="any" placeholder="500">
+            </div>
+            <div class="form-group">
+              <label for="time_interval" class="control-label">Frequency of Weather Reports (hrs)</label>
+              <input id="time_interval" class="form-control" type="number" step="any" placeholder="2">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success submit-flight" type="button">Forecast</button>
+            </div>
+          </fieldset>
+        </form>
+        <div class="forecast-list">
+          <ul class="list-group"></ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

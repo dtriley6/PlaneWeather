@@ -1,16 +1,17 @@
 $(document).on('ready page:load', function() {
-  var forecastApp = forecastApp || {}
+  var forecastApp = forecastApp || {};
 
 
   forecastApp.submitFlightForm = function() {
     var origin = document.getElementById('origin').value;
     var destination = document.getElementById('destination').value;
 
-    // Empty out array.
+    // Empty out arrays.
     forecastApp.flightPathCoordinates = [];
+    forecastApp.markers = [];
 
-    forecastApp.getResolvedLocation(origin)
-  forecastApp.getResolvedLocation(destination)
+    forecastApp.getResolvedLocation(origin);
+    forecastApp.getResolvedLocation(destination);
   };
 
   // Resolve
@@ -18,7 +19,7 @@ $(document).on('ready page:load', function() {
     $.getJSON('resolve/' + locationQuery, function(data) {
       forecastApp.flightPathCoordinates.push(new google.maps.LatLng(data.location[0], data.location[1]));
 
-      if(forecastApp.flightPathCoordinates.length === 2) {
+      if (forecastApp.flightPathCoordinates.length === 2) {
         var origin = forecastApp.flightPathCoordinates[0];
         var destination = forecastApp.flightPathCoordinates[1];
 
@@ -30,9 +31,10 @@ $(document).on('ready page:load', function() {
 
         $.getJSON('forecast/' + origin['k'] + ',' + origin['D'] + '/' +
           destination['k'] + ',' + destination['D'] + '/' +
-          formattedDateTime + '/' + speed + '/' + timeInterval , function(forecasts) {
+          formattedDateTime + '/' + speed + '/' + timeInterval, function(forecasts) {
             console.log(forecasts);
             initializeMap(forecasts);
+            forecastApp.setForecasts(forecasts);
           });
       }
     });
@@ -43,14 +45,32 @@ $(document).on('ready page:load', function() {
 
   };
 
+  // Forecast
+  forecastApp.setForecasts = function(forecastsObject) {
+    $('.forecast-list ul').empty();
+
+    var forecasts = forecastsObject.forecasts;
+    for (i = 0; i < forecasts.length; i++) {
+      var forecast = forecasts[i];
+      $.tmpl('templates/forecast_list_item', { temperature: forecast.temperature, time: forecast.time,
+        summary: forecast.summary, precipType: forecast.precipType, windSpeed: forecast.windSpeed,
+        windBearing: forecast.windBearing, pressure: forecast.pressure })
+        .appendTo('.forecast-list ul').mouseover(function() {
+          forecastApp.markers[$(this).index()].setAnimation(google.maps.Animation.BOUNCE);
+        }).mouseout(function() {
+          forecastApp.markers[$(this).index()].setAnimation(null);
+        });
+    }
+  };
+
   // Map
   var initializeMap = function(opt_markers) {
     var mapOptions = {
       center: { lat: 35.877639, lng: -78.787472}, zoom: 4
     };
-    var map = forecastApp.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    var map = forecastApp.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-    if(forecastApp.flightPathCoordinates) {
+    if (forecastApp.flightPathCoordinates) {
       var flightPath = new google.maps.Polyline({
         path: forecastApp.flightPathCoordinates,
         geodesic: true,
@@ -61,18 +81,19 @@ $(document).on('ready page:load', function() {
 
       flightPath.setMap(map);
 
-      if(opt_markers) {
+      if (opt_markers) {
         //create empty LatLngBounds object
         var bounds = new google.maps.LatLngBounds();
         var infowindow = new google.maps.InfoWindow();
 
         var forecasts = opt_markers.forecasts;
 
-        for (i = 0; i < forecasts.length; i++) {  
+        for (i = 0; i < forecasts.length; i++) {
           var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(forecasts[i]["latitude"], forecasts[i]["longitude"]),
+            position: new google.maps.LatLng(forecasts[i]['latitude'], forecasts[i]['longitude']),
             map: map
           });
+          forecastApp.markers.push(marker);
 
           //extend the bounds to include each marker's position
           bounds.extend(marker.position);
