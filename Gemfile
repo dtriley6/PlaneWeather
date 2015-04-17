@@ -27,7 +27,10 @@ gem "typhoeus"
 
 gem 'jquery-tmpl-rails'
 
-gem 'mysql2'
+#gem 'mysql2'
+gem 'pg'
+
+gem 'rails_12factor', group: :production
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -50,3 +53,4 @@ group :development, :test do
   gem 'spring'
 end
 
+ruby "2.1.2p95"
