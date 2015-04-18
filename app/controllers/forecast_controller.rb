@@ -13,15 +13,15 @@ class ForecastController < ApplicationController
     origin_latitude, origin_longitude = origin_split[0].to_f, origin_split[1].to_f
     destination_latitude, destination_longitude = destination_split[0].to_f, destination_split[1].to_f
 
-    @waypoints = CalculateWaypoints.call(origin_latitude, origin_longitude, destination_latitude, destination_longitude, departure, speed, interval)
+    waypoints = CalculateWaypoints.call(origin_latitude, origin_longitude, destination_latitude, destination_longitude, departure, speed, interval)
 
     hydra = Typhoeus::Hydra.hydra
 
     @forecasts = {:forecasts => []}
     count = 0;
-    requests = @waypoints.count.times.map {
+    requests = waypoints.count.times.map {
       url = "https://api.forecast.io/forecast/#{ ENV["FORECAST_IO_KEY"] }/" +
-            @waypoints[count]["latitude"] + "," + @waypoints[count]["longitude"] + "," + (departure.to_i + (count * interval.to_i * 3600)).to_s
+            waypoints[count]["latitude"] + "," + waypoints[count]["longitude"] + "," + (departure.to_i + (count * interval.to_i * 3600)).to_s
       count += 1
 
       request = Typhoeus::Request.new(url)

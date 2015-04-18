@@ -1,14 +1,13 @@
 class LocationController < ApplicationController
 
   def resolve
-    @locationQuery = params[:location]
-    if is_airport_code?(@locationQuery.upcase)
-      @airport = Airport.find_by_iata(@locationQuery.upcase);
-      @location = { "location" => [@airport.latitude, @airport.longitude] }
+    locationQuery = params[:location]
+    if is_airport_code?(locationQuery.upcase)
+      airport = Airport.find_by_iata(locationQuery.upcase);
+      @location = { "location" => [airport.latitude.to_f, airport.longitude.to_f] }
     else
-      @split_location = @locationQuery.split(',')
-      #@location = { "location" => ['%.1f' % @split_location[0].to_f, '%.1f' % @split_location[1].to_f]}
-      @location = { "location" => [@split_location[0].to_f, @split_location[1].to_f]}
+      split_location = locationQuery.split(',')
+      @location = { "location" => [split_location[0].to_f, split_location[1].to_f]}
     end
     respond_to do |format|
       format.json { render json: @location }
