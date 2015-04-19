@@ -9,17 +9,12 @@ div.map-container {
 }
 
 .side-panel {
-  top: 0;
-  bottom:0;
-  position:fixed;
-  overflow-y:scroll;
-  overflow-x:hidden;
-  .flight-details {
-    padding-top: 60px;
-  }
+  height: auto;
+  max-height: 600px;
+  overflow-x: hidden;
   .forecast-item {
     &:hover {
-        background-color: #f0f0f0;
+      background-color: #f0f0f0;
     }
   }
 }
