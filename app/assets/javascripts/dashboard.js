@@ -7,32 +7,32 @@ $(document).on('ready page:load', function() {
         var origin = document.getElementById('origin').value;
         var destination = document.getElementById('destination').value;
 
-        // Empty out arrays.
+        // Empty out variables.
+        delete forecastApp.origin;
+        delete forecastApp.destination;
         forecastApp.flightPathCoordinates = [];
         forecastApp.markers = [];
 
-        forecastApp.getResolvedLocation(origin);
-        forecastApp.getResolvedLocation(destination);
+        forecastApp.getResolvedLocation(origin, 'origin');
+        forecastApp.getResolvedLocation(destination, 'destination');
     };
 
-    // Resolve
-    forecastApp.getResolvedLocation = function(locationQuery) {
+    // Resolve, specifying location type to avoid a race condition.
+    forecastApp.getResolvedLocation = function(locationQuery, locationType) {
         $.getJSON('resolve/' + locationQuery, function(locationData) {
-            forecastApp.flightPathCoordinates.push(
-                new google.maps.LatLng(locationData.location[0], locationData.location[1]));
+            forecastApp[locationType] =
+                new google.maps.LatLng(locationData.location[0], locationData.location[1]);
 
-            if (forecastApp.flightPathCoordinates.length === 2) {
-                var origin = forecastApp.flightPathCoordinates[0];
-                var destination = forecastApp.flightPathCoordinates[1];
-
+            if (forecastApp.origin && forecastApp.destination) {
+                forecastApp.flightPathCoordinates.push(forecastApp.origin, forecastApp.destination);
                 var date = document.getElementById('date').value;
                 var time = document.getElementById('time').value;
                 var speed = document.getElementById('speed').value;
                 var timeInterval = document.getElementById('time_interval').value;
                 var formattedDateTime = new Date(date + ' ' + time).getTime() / 1000;
 
-                $.getJSON('forecast/' + origin['k'] + ',' + origin['D'] + '/' +
-                    destination['k'] + ',' + destination['D'] + '/' +
+                $.getJSON('forecast/' + forecastApp.origin['k'] + ',' + forecastApp.origin['D'] + '/' +
+                    forecastApp.destination['k'] + ',' + forecastApp.destination['D'] + '/' +
                     formattedDateTime + '/' + speed + '/' + timeInterval, function(forecasts) {
                         forecastApp.renderMap(forecasts);
                         forecastApp.setForecasts(forecasts);
