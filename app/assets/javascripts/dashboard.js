@@ -38,7 +38,7 @@ $(document).on('ready page:load', function() {
                         forecastApp.setForecasts(forecasts);
 
                         if ($('.forecast-list > h3').length === 0) {
-                          $('.forecast-list').prepend('<h3>Forecasts</h3>')
+                            $('.forecast-list').prepend('<h3>Forecasts</h3>')
                         }
                     });
             }
