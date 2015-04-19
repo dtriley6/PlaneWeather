@@ -22,7 +22,9 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem "typhoeus"
+gem 'typhoeus'
+gem 'dalli'
+gem 'memcachier'
 
 gem 'jquery-tmpl-rails'
 
