@@ -1,28 +1,22 @@
-== README
+== Plane Weather
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To get up and running you'll need:
 
-Things you may want to cover:
+* Ruby 2.1.2
 
-* Ruby version
+* Rails 4.2
 
-* System dependencies
+* Memchache Server
 
-* Configuration
+* Forecast.io api key set to ENV["FORECAST_IO_KEY"]
 
-* Database creation
+Run the following to get started:
 
-* Database initialization
+* <tt>git clone https://github.com/dtriley6/PlaneWeather.git</tt>
+* <tt>rake db:create</tt>  
+* <tt>rake db:migrate</tt>  
+* <tt>rake db:seed</tt>  
+* <tt>bundle install</tt>  
+* <tt>rails s</tt>  
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+This was deployed to heroku and can be found at http://stark-harbor-1915.herokuapp.com/
