@@ -35,8 +35,11 @@ $(document).on('ready page:load', function() {
                     destination['k'] + ',' + destination['D'] + '/' +
                     formattedDateTime + '/' + speed + '/' + timeInterval, function(forecasts) {
                         forecastApp.renderMap(forecasts);
-                        $('.forecast-list').prepend('<h3>Forecasts</h3>')
                         forecastApp.setForecasts(forecasts);
+
+                        if ($('.forecast-list > h3').length === 0) {
+                          $('.forecast-list').prepend('<h3>Forecasts</h3>')
+                        }
                     });
             }
         });

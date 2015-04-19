@@ -36,7 +36,7 @@ class ForecastController < ApplicationController
 
     responses.each do |forecast|
       @forecast = { :latitude => forecast["latitude"], :longitude => forecast["longitude"], :temperature => forecast["currently"]["temperature"],
-        :time => forecast["currently"]["time"], :summary => forecast["currently"]["summary"], :precipType => forecast["currently"]["precipType"],
+        :time => Time.at(forecast["currently"]["time"]).strftime("%a %b %e %Y %r"), :summary => forecast["currently"]["summary"], :precipType => forecast["currently"]["precipType"],
         :windSpeed => forecast["currently"]["windSpeed"], :windBearing => forecast["currently"]["windBearing"], :pressure => forecast["currently"]["pressure"]}
       @forecasts[:forecasts] << @forecast
     end
