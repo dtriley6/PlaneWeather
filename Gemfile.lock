@@ -55,6 +55,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
+    dalli (2.7.2)
     debug_inspector (0.0.2)
     erubis (2.7.0)
     ethon (0.7.3)
@@ -78,6 +79,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    memcachier (0.0.2)
     mime-types (2.4.3)
     mini_portile (0.6.2)
     minitest (5.6.0)
@@ -163,9 +165,11 @@ DEPENDENCIES
   better_errors
   byebug
   coffee-rails (~> 4.1.0)
+  dalli
   jbuilder (~> 2.0)
   jquery-rails
   jquery-tmpl-rails
+  memcachier
   pg
   rails (= 4.2.0)
   rails_12factor
